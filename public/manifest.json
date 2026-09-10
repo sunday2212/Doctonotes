@@ -1,0 +1,41 @@
+
+{
+  "name": "Doc to Notes AI",
+  "short_name": "Doc2Notes",
+  "description": "Convert your documents and images to AI-powered medical notes with OCR and touchup features",
+  "start_url": "./?v=2",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0891b2",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/icons-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "education", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Upload Document",
+      "short_name": "Upload",
+      "description": "Upload a new document to convert",
+      "url": "/",
+      "icons": [{ "src": "/icons-192.png", "sizes": "96x96", "type": "image/png" }]
+    }
+  ]
+}
