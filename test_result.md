@@ -162,3 +162,38 @@
 ##   frontend_testing_agent:
 ##     status: "pass"
 ##     details: "Verified frontend loads cleanly on port 3000, 3 upload cards visible and functional, header present, 0 console errors."
+
+## user_problem_statement: GitHub Actions failed ("frontend/package-lock.json not resolved for npm cache") and Cloudflare Pages failed ("bun install --frozen-lockfile: lockfile had changes"). Both caused by stale/missing lockfiles in repo.
+## frontend:
+##   - task: "Fix lockfiles so GitHub Actions and Cloudflare Pages builds succeed"
+##     implemented: true
+##     working: true
+##     file: "frontend/package-lock.json (added), frontend/bun.lockb (removed)"
+##     stuck_count: 0
+##     priority: "high"
+##     needs_retesting: false
+##     status_history:
+##         -working: false
+##         -agent: "user"
+##         -comment: "GH Actions: setup-node cache-dependency-path frontend/package-lock.json not found in repo. Cloudflare: detected stale bun.lockb, bun --frozen-lockfile failed."
+##         -working: true
+##         -agent: "main"
+##         -comment: "frontend/package-lock.json was untracked in git and bun.lockb (stale) was tracked. Removed bun.lockb and stray yarn.lock so only npm lockfile remains; refreshed package-lock.json via npm i; validated with npm ci --dry-run (exit 0). User must push (Save to GitHub) and retry Cloudflare deploy."
+##         -working: true
+##         -agent: "testing"
+##         -comment: "Comprehensive regression test completed after lockfile changes. All tests passed: (1) App loads without white screen, (2) All three upload cards visible and functional (PDF Document, Medical Images, Word Document), (3) MedNotes AI header and upload section present, (4) Zero console errors, (5) Zero module loading errors, (6) Zero network failures. Screenshot confirms clean UI rendering. Lockfile changes did not break any functionality."
+## test_plan:
+##   current_focus: []
+##   stuck_tasks: []
+##   test_all: false
+##   test_priority: "high_first"
+## agent_communication:
+##     -agent: "main"
+##     -message: "Lockfile fix done; app re-verified on :3000 after changes."
+##     -agent: "testing"
+##     -message: "Regression testing complete. Lockfile changes (removed bun.lockb, refreshed package-lock.json) did not introduce any breaking changes. All UI components render correctly, no module resolution errors, no console errors. App is fully functional and ready for deployment."
+
+## subagent_results:
+##   frontend_testing_agent (lockfile regression):
+##     status: "pass"
+##     details: "App loads on :3000, all 3 upload cards functional, zero console/module errors after bun.lockb removal + package-lock.json refresh."
