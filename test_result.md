@@ -101,3 +101,32 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+## user_problem_statement: Make the Vite+React PWA (doctonotes2 / Doctonotes) deployable to GitHub Pages, Cloudflare Pages, Vercel, Netlify — fix white screen / README page on GitHub Pages.
+## frontend:
+##   - task: "Fix GitHub Pages white screen + raw-source deploy; make static-deployable anywhere"
+##     implemented: true
+##     working: true
+##     file: "frontend/vite.config.ts, frontend/index.html, frontend/public/manifest.json, frontend/public/sw.js, frontend/src/main.tsx, .github/workflows/deploy.yml, netlify.toml, vercel.json"
+##     stuck_count: 0
+##     priority: "high"
+##     needs_retesting: false
+##     status_history:
+##         -working: false
+##         -agent: "user"
+##         -comment: "GitHub Pages showed white screen first, then README page ('Here are your Instructions') instead of the app. Repo served raw source via 'Deploy from a branch'; vite base was hardcoded to wrong repo name '/doc-to-notes-ai/'."
+##         -working: true
+##         -agent: "main"
+##         -comment: "Set vite base to relative './'; made manifest/sw/icons paths relative; SW registration via import.meta.env.BASE_URL; lazy-loaded lovable-tagger (Node22-only dep) so prod build works; added ROOT .github/workflows/deploy.yml (old one in frontend/.github was inactive) that builds frontend/dist and deploys via GitHub Actions; added netlify.toml, vercel.json, frontend/public/_redirects; rewrote README with deploy guide. Verified locally: production build serves correctly under /Doctonotes/ subpath simulation (root content rendered, no console errors, manifest/sw/icons 200, no h-overflow desktop+mobile)."
+## metadata:
+##   created_by: "main_agent"
+##   version: "1.0"
+##   test_sequence: 1
+##   run_ui: false
+## test_plan:
+##   current_focus: []
+##   stuck_tasks: []
+##   test_all: false
+##   test_priority: "high_first"
+## agent_communication:
+##     -agent: "main"
+##     -message: "Static-hosting deploy fix verified locally via subpath simulation + screenshots. No backend changes made. User must push and switch Pages source to 'GitHub Actions'."

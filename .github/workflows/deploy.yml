@@ -1,0 +1,70 @@
+name: Deploy to GitHub Pages
+
+# Triggers on every push to main, or manually via the Actions tab.
+# IMPORTANT: In your repo, go to Settings -> Pages -> Source and select
+# "GitHub Actions" (NOT "Deploy from a branch"). The app must be built
+# first — serving the raw source only shows the README.
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          NODE_ENV: production
+          # Optional secrets — set in Settings -> Secrets and variables -> Actions.
+          # The app can also fetch Groq keys at runtime, so the build
+          # succeeds even if these are empty.
+          VITE_GROQ_API_KEY: ${{ secrets.API_KEY }}
+          VITE_GROQ_API_KEY_X: ${{ secrets.API_KEY_X }}
+          VITE_TINY_API: ${{ secrets.TINY_API }}
+          VITE_HF_API_TOKEN: ${{ secrets.HUGGINGFACE_API_TOKEN }}
+
+      - name: Create 404.html for SPA routing
+        run: cp dist/index.html dist/404.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './frontend/dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

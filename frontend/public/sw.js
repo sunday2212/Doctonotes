@@ -1,10 +1,12 @@
-const CACHE_NAME = 'doc2notes-v4';
+const CACHE_NAME = 'doc2notes-v5';
+// Paths are relative to the service worker's own location, so the cache
+// works both at a root domain and under a GitHub Pages subpath (/repo/).
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons-192.png',
-  '/icons-512.png'
+  './',
+  'index.html',
+  'manifest.json',
+  'icons-192.png',
+  'icons-512.png'
 ];
 
 self.addEventListener('install', (event) => {

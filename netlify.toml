@@ -1,0 +1,12 @@
+# Netlify configuration — auto-detected when you import the repo.
+# The React app lives in the /frontend subdirectory.
+
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
